@@ -29,6 +29,31 @@ in {
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
     ];
+  
+    fileSystems."/" =
+    { device = "/dev/disk/by-uuid/69574656-c0a7-4779-8f12-4aa09d023bd1";
+      fsType = "ext4";
+    };
+
+  fileSystems."/boot" =
+    { device = "/dev/disk/by-uuid/4B10-78BF";
+      fsType = "vfat";
+    };
+        
+  fileSystems."/home" =
+    { device = "/dev/disk/by-uuid/7d1f9fe3-68bc-42f1-bed2-cc79a395e5f4";
+      fsType = "ext4";
+    };
+    
+    
+  boot.initrd.luks.devices = [
+    {
+        name = "home";
+        device = "/dev/sda1";
+        preLVM = true;
+    }
+  ];
+
 
   # Use the systemd-boot EFI boot loader.
   # boot.loader.systemd-boot.enable = true;
