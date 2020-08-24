@@ -11,14 +11,34 @@ let
   };
   
 in {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-    ];
+  boot.initrd.availableKernelModules = [ "xhci_pci" "ehci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" "rtsx_usb_sdmmc" ];
+  boot.initrd.kernelModules = [ "dm-snapshot" ];
+  boot.kernelModules = [ "kvm-intel" ];
+  boot.extraModulePackages = [ ];
+  
+  fileSystems."/" =
+    { device = "/dev/disk/by-uuid/c71a4af8-23f4-4f3c-8432-f71a619cca44";
+      fsType = "ext4";
+    };
+
+  fileSystems."/boot" =
+    { device = "/dev/disk/by-uuid/8FE9-4309";
+      fsType = "vfat";
+    };
+        
+  fileSystems."/home" =
+    { device = "/dev/disk/by-uuid/46988459-2f23-4131-9433-e37e26ec1f4b";
+      fsType = "ext4";
+    };
+    
+  swapDevices = [ ];
+
+  nix.maxJobs = lib.mkDefault 4;
+  powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
 
   boot.initrd.luks.devices = {
     enc-pv = {
-      device = "/dev/disk/by-uuid/b2ff7226-21a7-4caa-bee8-e611966e14ad";
+      device = "/dev/disk/by-uuid/46988459-2f23-4131-9433-e37e26ec1f4b";
       preLVM = true;
       allowDiscards = true;
     };
