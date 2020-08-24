@@ -30,13 +30,14 @@ in {
     { device = "/dev/disk/by-uuid/7d1f9fe3-68bc-42f1-bed2-cc79a395e5f4";
       fsType = "ext4";
     };
-    
-  boot.initrd.luks.devices = [
-    {
-        name = "home";
-        device = "/dev/sda1";
-        preLVM = true;
-    }
+
+  boot.initrd.luks.devices = {
+    enc-pv = {
+      device = "/dev/disk/by-uuid/b2ff7226-21a7-4caa-bee8-e611966e14ad";
+      preLVM = true;
+      allowDiscards = true;
+    };
+  };
   ];
 
   # Use the systemd-boot EFI boot loader.
