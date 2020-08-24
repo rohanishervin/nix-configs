@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, lib, inputs, ... }:
+{ config, pkgs, inputs, ... }:
 
 let
   nixos-unstable = import inputs.nixos-unstable {
@@ -11,39 +11,6 @@ let
   };
   
 in {
-  boot.initrd.availableKernelModules = [ "xhci_pci" "ehci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" "rtsx_usb_sdmmc" ];
-  boot.initrd.kernelModules = [ "dm-snapshot" ];
-  boot.kernelModules = [ "kvm-intel" ];
-  boot.extraModulePackages = [ ];
-  
-  fileSystems."/" =
-    { device = "/dev/disk/by-uuid/c71a4af8-23f4-4f3c-8432-f71a619cca44";
-      fsType = "ext4";
-    };
-
-  fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/8FE9-4309";
-      fsType = "vfat";
-    };
-        
-  fileSystems."/home" =
-    { device = "/dev/disk/by-uuid/46988459-2f23-4131-9433-e37e26ec1f4b";
-      fsType = "ext4";
-    };
-    
-  swapDevices = [ ];
-
-  nix.maxJobs = lib.mkDefault 4;
-  powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
-
-  boot.initrd.luks.devices = {
-    enc-pv = {
-      device = "/dev/disk/by-uuid/46988459-2f23-4131-9433-e37e26ec1f4b";
-      preLVM = true;
-      allowDiscards = true;
-    };
-  };
-
   # Use the systemd-boot EFI boot loader.
   # boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -90,7 +57,7 @@ in {
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    wget vim firefox emacs gparted chromium
+    wget vim firefox
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
