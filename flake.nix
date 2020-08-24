@@ -5,6 +5,7 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-20.03";
     nixos-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
   };
+
   outputs = { self, nixpkgs, ... }@inputs: {
     nixosConfigurations = {
       lzf = nixpkgs.lib.nixosSystem {
@@ -15,8 +16,6 @@
     };
 
     lzf = self.nixosConfigurations.lzf.config.system.build.toplevel;
-
-    defaultPackage.x86_64-linux =
-      (builtins.head (builtins.attrValues self.nixosConfigurations)).pkgs;
   };
 }
+
