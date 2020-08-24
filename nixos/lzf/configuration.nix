@@ -31,8 +31,6 @@ in {
       fsType = "ext4";
     };
 
-  ];
-
   boot.initrd.luks.devices = {
     enc-pv = {
       device = "/dev/disk/by-uuid/b2ff7226-21a7-4caa-bee8-e611966e14ad";
