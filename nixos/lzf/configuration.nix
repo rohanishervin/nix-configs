@@ -16,18 +16,6 @@ in {
       ./hardware-configuration.nix
     ];
 
-  # Use the systemd-boot EFI boot loader.
-  # boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVari# Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running ‘nixos-help’).
-
-{
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-    ];
-  
     fileSystems."/" =
     { device = "/dev/disk/by-uuid/69574656-c0a7-4779-8f12-4aa09d023bd1";
       fsType = "ext4";
@@ -43,7 +31,6 @@ in {
       fsType = "ext4";
     };
     
-    
   boot.initrd.luks.devices = [
     {
         name = "home";
@@ -51,7 +38,6 @@ in {
         preLVM = true;
     }
   ];
-
 
   # Use the systemd-boot EFI boot loader.
   # boot.loader.systemd-boot.enable = true;
